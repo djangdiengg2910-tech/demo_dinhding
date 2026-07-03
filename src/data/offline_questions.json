@@ -1,0 +1,154 @@
+{
+  "Object": {
+    "Easy": [
+      {
+        "answer": "Smartphone",
+        "hints": [
+          "It is a pocket-sized electronic device.",
+          "Almost everyone in modern society carries one.",
+          "It combines cellular access, web surfing, and touch applications.",
+          "It replaced traditional landlines and features digital cameras.",
+          "Popular brands include Apple iPhone and Samsung Galaxy."
+        ]
+      }
+    ],
+    "Medium": [
+      {
+        "answer": "Astrolabe",
+        "hints": [
+          "It is an ancient astronomical instrument.",
+          "Used by astronomers and navigators to measure celestial altitude.",
+          "Commonly made of brass with circular plates called tympans.",
+          "It helps solve problems relating to time and the position of stars.",
+          "It was largely replaced by the sextant in the 18th century."
+        ]
+      }
+    ],
+    "Hard": [
+      {
+        "answer": "Leyden Jar",
+        "hints": [
+          "It is a historical scientific object.",
+          "Invented independently in 1745 by Ewald Georg von Kleist and Pieter van Musschenbroek.",
+          "It consists of a glass jar lined with metal foil on both the inside and outside.",
+          "It was the earliest form of electrical capacitor used to store high-voltage charges.",
+          "Benjamin Franklin used it in his famous electricity experiments."
+        ]
+      }
+    ]
+  },
+  "Famous Person": {
+    "Easy": [
+      {
+        "answer": "Albert Einstein",
+        "hints": [
+          "This person is associated with modern physics.",
+          "He spent his later years researching at Princeton.",
+          "He won the 1921 Nobel Prize in Physics for the photoelectric effect.",
+          "He is famous for his formula E=mc².",
+          "He developed the special and general theories of relativity."
+        ]
+      }
+    ],
+    "Medium": [
+      {
+        "answer": "Ada Lovelace",
+        "hints": [
+          "This historical figure is celebrated in computer history.",
+          "She was the daughter of the famous romantic poet Lord Byron.",
+          "She worked closely with inventor Charles Babbage.",
+          "She wrote notes on Babbage's Analytical Engine mechanical computer.",
+          "She is widely recognized as the world's first computer programmer."
+        ]
+      }
+    ],
+    "Hard": [
+      {
+        "answer": "Eratosthenes",
+        "hints": [
+          "He was an ancient Greek polymath.",
+          "He served as the chief librarian at the Library of Alexandria.",
+          "He invented the discipline of geography and the terminology still used today.",
+          "He created an algorithm for finding prime numbers by filtering multiples.",
+          "He calculated the Earth's circumference using shadows cast by obelisks."
+        ]
+      }
+    ]
+  },
+  "Animal": {
+    "Easy": [
+      {
+        "answer": "Lion",
+        "hints": [
+          "It is a large predatory feline.",
+          "Native primarily to sub-Saharan Africa.",
+          "Known for living in family groups called prides.",
+          "Males grow large dark manes around their heads.",
+          "Often referred to as the 'King of the Jungle'."
+        ]
+      }
+    ],
+    "Medium": [
+      {
+        "answer": "Platypus",
+        "hints": [
+          "It is a semi-aquatic mammal.",
+          "Endemic to eastern Australia, including Tasmania.",
+          "It is one of the few species of egg-laying mammals.",
+          "It has a duck-like bill, beaver-like tail, and otter-like feet.",
+          "Males possess venomous spurs on their hind feet."
+        ]
+      }
+    ],
+    "Hard": [
+      {
+        "answer": "Axolotl",
+        "hints": [
+          "It is an aquatic amphibian.",
+          "Endemic exclusively to Lake Xochimilco in Mexico.",
+          "It exhibits neoteny, keeping its larval gills into adulthood.",
+          "Highly researched for its ability to regenerate entire limbs.",
+          "Also known as the Mexican walking fish."
+        ]
+      }
+    ]
+  },
+  "Technology": {
+    "Easy": [
+      {
+        "answer": "Internet",
+        "hints": [
+          "It is a global communications system.",
+          "Evolved from ARPANET in the late 20th century.",
+          "Enables access to the World Wide Web and email.",
+          "Uses IP addresses and packet switching routing.",
+          "The largest interconnected network of computers worldwide."
+        ]
+      }
+    ],
+    "Medium": [
+      {
+        "answer": "Blockchain",
+        "hints": [
+          "It is a digital bookkeeping technology.",
+          "Information is stored chronologically in connected segments.",
+          "Relies on consensus mechanisms like Proof of Work or Proof of Stake.",
+          "Forms the cryptographic backbone of decentralized virtual tokens.",
+          "Invented in 2008 for cryptocurrency, specifically Bitcoin."
+        ]
+      }
+    ],
+    "Hard": [
+      {
+        "answer": "Memristor",
+        "hints": [
+          "It is a fundamental electrical component.",
+          "The name combines 'memory' and 'resistor'.",
+          "Its resistance depends on the history of electric current that has passed through it.",
+          "Theorized by Leon Chua in 1971, with first physical models built in 2008 by HP Labs.",
+          "Considered the fourth passive circuit element alongside resistor, capacitor, and inductor."
+        ]
+      }
+    ]
+  }
+}

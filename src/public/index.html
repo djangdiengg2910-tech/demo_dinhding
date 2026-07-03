@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GemiClue | Gemini-Powered AI Guessing Game</title>
+  <meta name="description" content="Test your deductive skills against Gemini in a real-time multiplayer duel!">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-decor">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+    <header class="header">
+      <h1 class="logo">Gemi<span>Clue</span></h1>
+      <p class="subtitle">LAN Multiplayer AI Guessing Game. Buzz fast, guess right!</p>
+    </header>
+
+    <main class="main-content">
+      <!-- SETUP VIEW (Lobby Join/Create Tabs) -->
+      <section id="setup-view" class="card fade-in">
+        <div class="tab-headers">
+          <button id="tab-create" class="tab-btn active">Create Room</button>
+          <button id="tab-join" class="tab-btn">Join Room</button>
+        </div>
+
+        <div class="tab-content">
+          <!-- Create Room Form -->
+          <form id="create-room-form" class="setup-form">
+            <div class="form-group">
+              <label for="create-username">Your Username</label>
+              <input type="text" id="create-username" placeholder="Enter username..." required maxlength="12">
+            </div>
+
+            <div class="form-group">
+              <label for="category-select">Select Category</label>
+              <div class="select-wrapper">
+                <select id="category-select" required>
+                  <option value="" disabled selected>Choose a category...</option>
+                  <option value="Object">Object</option>
+                  <option value="Historical Event">Historical Event</option>
+                  <option value="Political Event">Political Event</option>
+                  <option value="Famous Person">Famous Person</option>
+                  <option value="Animal">Animal</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Movie">Movie</option>
+                  <option value="Country">Country</option>
+                  <option value="Video Game">Video Game</option>
+                  <option value="Mythology">Mythology</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Select Difficulty</label>
+              <div class="radio-group">
+                <label class="radio-tile">
+                  <input type="radio" name="difficulty" value="Easy">
+                  <span class="radio-label">Easy</span>
+                  <span class="radio-desc">Famous only</span>
+                </label>
+                <label class="radio-tile">
+                  <input type="radio" name="difficulty" value="Medium" checked>
+                  <span class="radio-label">Medium</span>
+                  <span class="radio-desc">Moderate popularity</span>
+                </label>
+                <label class="radio-tile">
+                  <input type="radio" name="difficulty" value="Hard">
+                  <span class="radio-label">Hard</span>
+                  <span class="radio-desc">Obscure entities</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Number of Hints</label>
+              <div class="radio-group">
+                <label class="radio-tile">
+                  <input type="radio" name="hints-count" value="5" checked>
+                  <span class="radio-label">5 Hints</span>
+                  <span class="radio-desc">Quick Game</span>
+                </label>
+                <label class="radio-tile">
+                  <input type="radio" name="hints-count" value="10">
+                  <span class="radio-label">10 Hints</span>
+                  <span class="radio-desc">Standard Game</span>
+                </label>
+                <label class="radio-tile">
+                  <input type="radio" name="hints-count" value="20">
+                  <span class="radio-label">20 Hints</span>
+                  <span class="radio-desc">Marathon Game</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group demo-mode-group">
+              <label class="demo-checkbox-label">
+                <input type="checkbox" id="demo-mode-checkbox">
+                <span class="demo-checkbox-custom"></span>
+                <span class="demo-label-text">Judge Demo Mode (Zero-latency mock, fast timers)</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <span>Create Room</span>
+              <div class="btn-shine"></div>
+            </button>
+          </form>
+
+          <!-- Join Room Form (Hidden Initially) -->
+          <form id="join-room-form" class="setup-form hidden">
+            <div class="form-group">
+              <label for="join-username">Your Username</label>
+              <input type="text" id="join-username" placeholder="Enter username..." required maxlength="12">
+            </div>
+
+            <div class="form-group">
+              <label for="room-code-input">Room Code</label>
+              <input type="text" id="room-code-input" placeholder="e.g. AB3C..." required maxlength="6" style="text-transform: uppercase;">
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <span>Join Room</span>
+              <div class="btn-shine"></div>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- WAITING LOBBY (Hidden Initially) -->
+      <section id="lobby-view" class="card hidden">
+        <h2 class="section-title">Waiting for Opponent</h2>
+        <div class="lobby-code-box">
+          <span class="lobby-code-label">ROOM CODE:</span>
+          <span id="lobby-room-id" class="lobby-code-val">----</span>
+        </div>
+        <p class="lobby-info-text">Share the room code above with another player. Once they join, the game will automatically start!</p>
+        <div class="players-list-container">
+          <h3>Players Joined:</h3>
+          <div id="lobby-players-list" class="players-list">
+            <!-- Dynamically populated players -->
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME VIEW (Hidden Initially) -->
+      <section id="game-view" class="hidden">
+        <div class="game-header card">
+          <div class="game-meta">
+            <div class="meta-item">
+              <span class="meta-label">Category</span>
+              <span id="display-category" class="meta-value">-</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Room Code</span>
+              <span id="display-room-code" class="meta-value">-</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Hints Progress</span>
+              <span id="display-progress" class="meta-value">0 / 0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scores bar -->
+        <div class="scores-panel card">
+          <h3 class="panel-title">Scoreboard</h3>
+          <div id="scores-display" class="scores-display">
+            <!-- Sync player score list -->
+          </div>
+        </div>
+
+        <div class="game-grid">
+          <!-- Hints Board -->
+          <div class="hints-board card">
+            <div class="board-header">
+              <h3 class="panel-title">Hints Log</h3>
+              <span class="hint-difficulty-tip">Ordered: Vague &rarr; Obvious</span>
+            </div>
+            <!-- Timer countdown bar -->
+            <div class="timer-container">
+              <div id="timer-bar" class="timer-bar"></div>
+            </div>
+            <div id="hints-list" class="hints-list">
+              <!-- Dynamically populated hint cards -->
+            </div>
+          </div>
+
+          <!-- Interaction Console (Buzzer & Answering) -->
+          <div class="console-card card">
+            <h3 class="panel-title">Action Center</h3>
+            <p class="panel-desc" id="action-prompt">Buzz first to obtain answering rights!</p>
+
+            <!-- Buzzer Button -->
+            <div class="buzzer-container">
+              <button id="buzz-btn" class="buzz-btn">
+                <span class="buzz-label">BUZZ</span>
+              </button>
+            </div>
+
+            <!-- Submit Guess (Disabled initially until buzzed) -->
+            <form id="guess-form" class="guess-form hidden">
+              <div class="input-wrapper">
+                <input type="text" id="guess-input" placeholder="Type your answer..." autocomplete="off" required>
+                <button type="submit" id="submit-guess-btn" class="btn btn-primary btn-icon-only" aria-label="Submit Answer">
+                  &rarr;
+                </button>
+              </div>
+            </form>
+
+            <div id="feedback-log" class="feedback-log">
+              <!-- Realtime guess feedback logs -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS MODAL (Hidden initially) -->
+      <div id="result-overlay" class="modal-overlay hidden">
+        <div class="modal-content card scale-up">
+          <div class="result-status-badge success">Round Finished!</div>
+          <h2 class="modal-title" id="result-title">Winner: Player 1</h2>
+          <div class="result-answer-wrapper">
+            <span class="result-answer-label">Secret Entity:</span>
+            <div id="result-answer" class="result-answer-text">Albert Einstein</div>
+          </div>
+          <div id="result-explanation" class="result-explanation">
+            Einstein formulated the theory of relativity...
+          </div>
+          <div class="result-stats">
+            <div class="result-stat-box">
+              <span class="stat-num" id="stat-hints">4</span>
+              <span class="stat-label">Hints Used</span>
+            </div>
+          </div>
+          <button id="restart-btn" class="btn btn-primary">
+            <span>Return to Lobby</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- LOADING STATE (Hidden initially) -->
+      <div id="loading-overlay" class="modal-overlay hidden">
+        <div class="loader-container">
+          <div class="pulse-loader"></div>
+          <p class="loading-text">Gemini is preparing the mystery...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Socket.io client API -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Client App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
