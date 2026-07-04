@@ -11,9 +11,15 @@ Dự án này xây dựng một ứng dụng web chơi game đoán từ bằng N
 
 - Tạo phòng chơi và chia sẻ mã phòng
 - Tham gia phòng theo thời gian thực với Socket.io
+  <img width="1315" height="924" alt="image" src="https://github.com/user-attachments/assets/5dc85494-512d-473a-ba90-26c0ecc0c1b3" />
+
 - Hệ thống gợi ý tăng dần từ vague đến rõ ràng
 - Buzzer để giành quyền trả lời
+  <img width="1250" height="952" alt="image" src="https://github.com/user-attachments/assets/fde75ebf-4b7c-40c9-b1ba-87b38c0ab502" />
+
 - Chấm điểm theo thời điểm trả lời và số gợi ý đã dùng
+ ![Uploading image.png…]()
+
 - Hỗ trợ chế độ demo với dữ liệu offline
 - Tích hợp Gemini API để sinh dữ liệu trò chơi và kiểm tra câu trả lời
 
