@@ -11,7 +11,8 @@ let state = {
   revealedHints: [],
   scores: {},
   hasGuessedWrongThisHint: false,
-  timerInterval: null
+  timerInterval: null,
+  mode: 'duo'
 };
 
 // DOM references - Views
@@ -28,6 +29,7 @@ const joinForm = document.getElementById('join-room-form');
 // DOM references - Lobby
 const lobbyRoomId = document.getElementById('lobby-room-id');
 const lobbyPlayersList = document.getElementById('lobby-players-list');
+const lobbyInfoText = document.getElementById('lobby-info-text');
 
 // DOM references - Game Header & Scoreboard
 const displayCategory = document.getElementById('display-category');
@@ -176,12 +178,30 @@ function shakeConsole() {
 }
 
 function resetBuzzerBtnState() {
+  if (state.mode === 'solo') {
+    updateActionCenter('solo');
+    return;
+  }
+
   buzzBtn.className = 'buzz-btn';
   buzzBtn.disabled = state.hasGuessedWrongThisHint;
   actionPrompt.textContent = state.hasGuessedWrongThisHint
     ? 'Locked out: You guessed wrong on this hint!'
     : 'Buzz fast to answer!';
   guessForm.classList.add('hidden');
+}
+
+function updateActionCenter(mode = 'duo') {
+  if (mode === 'solo') {
+    buzzBtn.classList.add('hidden');
+    guessForm.classList.remove('hidden');
+    actionPrompt.textContent = 'Answer anytime. Fewer hints used means more points!';
+    guessInput.focus();
+  } else {
+    buzzBtn.classList.remove('hidden');
+    guessForm.classList.add('hidden');
+    resetBuzzerBtnState();
+  }
 }
 
 // --- Outbound Forms ---
@@ -193,10 +213,12 @@ createForm.addEventListener('submit', (e) => {
   const hintsCount = parseInt(hintsCountInput.value, 10);
   const difficultyInput = document.querySelector('input[name="difficulty"]:checked');
   const difficulty = difficultyInput ? difficultyInput.value : 'Medium';
+  const playModeInput = document.querySelector('input[name="play-mode"]:checked');
+  const mode = playModeInput ? playModeInput.value : 'solo';
   const demoMode = document.getElementById('demo-mode-checkbox').checked;
   
   state.username = username;
-  socket.emit('createRoom', { username, category, hintsCount, difficulty, demoMode });
+  socket.emit('createRoom', { username, category, hintsCount, difficulty, demoMode, mode });
 });
 
 joinForm.addEventListener('submit', (e) => {
@@ -243,25 +265,34 @@ restartBtn.addEventListener('click', () => {
     revealedHints: [],
     scores: {},
     hasGuessedWrongThisHint: false,
-    timerInterval: null
+    timerInterval: null,
+    mode: 'duo'
   };
 });
 
 // --- Socket Inbound Events ---
 
-socket.on('roomCreated', ({ roomId }) => {
+socket.on('roomCreated', ({ roomId, mode }) => {
   state.roomId = roomId;
+  state.mode = mode || 'duo';
   setupView.classList.add('hidden');
   lobbyView.classList.remove('hidden');
   lobbyRoomId.textContent = roomId;
+  lobbyInfoText.textContent = mode === 'solo'
+    ? 'Solo mode is active. The game will start immediately with a single player.'
+    : 'Share the room code above with another player. Once they join, the game will automatically start!';
   renderPlayersLobby([{ socketId: socket.id, username: state.username }]);
 });
 
-socket.on('roomJoined', ({ roomId, players }) => {
+socket.on('roomJoined', ({ roomId, players, mode }) => {
   state.roomId = roomId;
+  state.mode = mode || 'duo';
   setupView.classList.add('hidden');
   lobbyView.classList.remove('hidden');
   lobbyRoomId.textContent = roomId;
+  lobbyInfoText.textContent = mode === 'solo'
+    ? 'Solo mode is active. The game will start immediately with a single player.'
+    : 'Share the room code above with another player. Once they join, the game will automatically start!';
   renderPlayersLobby(players);
 });
 
@@ -273,7 +304,7 @@ socket.on('loadingGame', ({ message }) => {
   showLoading(true, message);
 });
 
-socket.on('startGame', ({ category, totalHints, firstHint, players }) => {
+socket.on('startGame', ({ category, totalHints, firstHint, players, mode }) => {
   showLoading(false);
   lobbyView.classList.add('hidden');
   gameView.classList.remove('hidden');
@@ -283,6 +314,7 @@ socket.on('startGame', ({ category, totalHints, firstHint, players }) => {
   state.hintsCount = totalHints;
   state.revealedHints = [firstHint];
   state.hasGuessedWrongThisHint = false;
+  state.mode = mode || 'duo';
 
   displayCategory.textContent = category;
   displayRoomCode.textContent = state.roomId;
@@ -294,7 +326,7 @@ socket.on('startGame', ({ category, totalHints, firstHint, players }) => {
   
   addHintCard(firstHint, 0);
   renderScoreboard(players);
-  resetBuzzerBtnState();
+  updateActionCenter(mode || 'duo');
 });
 
 socket.on('timerUpdate', ({ duration }) => {
@@ -345,7 +377,11 @@ socket.on('nextHint', ({ hintText, currentHintIndex, totalHints, hasMore }) => {
   
   displayProgress.textContent = `${currentHintIndex + 1} / ${totalHints}`;
   addHintCard(hintText, currentHintIndex);
-  resetBuzzerBtnState();
+  if (state.mode === 'solo') {
+    updateActionCenter('solo');
+  } else {
+    resetBuzzerBtnState();
+  }
 });
 
 socket.on('scoreUpdate', ({ players, scoredPlayer, points }) => {

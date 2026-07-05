@@ -102,6 +102,22 @@
               </div>
             </div>
 
+            <div class="form-group">
+              <label>Select Play Mode</label>
+              <div class="radio-group">
+                <label class="radio-tile">
+                  <input type="radio" name="play-mode" value="solo" checked>
+                  <span class="radio-label">Solo</span>
+                  <span class="radio-desc">Play alone, answer anytime</span>
+                </label>
+                <label class="radio-tile">
+                  <input type="radio" name="play-mode" value="duo">
+                  <span class="radio-label">2 Players</span>
+                  <span class="radio-desc">Classic buzzer duel</span>
+                </label>
+              </div>
+            </div>
+
             <div class="form-group demo-mode-group">
               <label class="demo-checkbox-label">
                 <input type="checkbox" id="demo-mode-checkbox">
@@ -143,7 +159,7 @@
           <span class="lobby-code-label">ROOM CODE:</span>
           <span id="lobby-room-id" class="lobby-code-val">----</span>
         </div>
-        <p class="lobby-info-text">Share the room code above with another player. Once they join, the game will automatically start!</p>
+        <p id="lobby-info-text" class="lobby-info-text">Share the room code above with another player. Once they join, the game will automatically start!</p>
         <div class="players-list-container">
           <h3>Players Joined:</h3>
           <div id="lobby-players-list" class="players-list">

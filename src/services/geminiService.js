@@ -1,5 +1,9 @@
 import { GoogleGenAI } from '@google/genai';
-import { GeminiGeneratedResponseSchema, GeminiVerifyResponseSchema } from '../schemas/gameSchemas.js';
+import {
+  GeminiGeneratedResponseSchema,
+  GeminiVerifyResponseSchema,
+  GeminiQuizGeneratedResponseSchema
+} from '../schemas/gameSchemas.js';
 
 // Initialize the Gemini SDK client
 const getClient = () => {
@@ -12,6 +16,36 @@ const getClient = () => {
 
 // Global in-memory cache for game generation
 const generationCache = new Map();
+
+// Sample prompt template for generating Quiz Mode question packs from Gemini.
+export const QUIZ_GENERATION_PROMPT_TEMPLATE = `Return ONLY valid JSON.
+
+You are generating a quiz dataset for the "Quiz Mode" game.
+Topic: {topic}
+Target difficulty: {difficulty}
+Generate exactly {questionCount} quiz questions.
+
+Each question must follow this schema:
+{
+  "topic": "{topic}",
+  "answer": "keyword or short phrase",
+  "hints": ["clue 1", "clue 2", "clue 3"],
+  "difficulty": "{difficulty}"
+}
+
+Rules:
+- The answer must be a single keyword or short phrase.
+- The hints must be related to the answer and should become progressively more revealing.
+- Do not include the answer directly in the hints.
+- Keep answers concise and recognizable.
+- Return pure JSON with no markdown, comments, or extra text.
+`;
+
+export function buildQuizGenerationPrompt(topic, questionCount = 5, difficulty = 'Medium') {
+  return QUIZ_GENERATION_PROMPT_TEMPLATE.replace('{topic}', topic)
+    .replace('{difficulty}', difficulty)
+    .replace('{questionCount}', String(questionCount));
+}
 
 // Rate limiting state
 let lastRequestTime = 0;

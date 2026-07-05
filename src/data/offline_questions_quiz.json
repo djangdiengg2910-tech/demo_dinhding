@@ -1,0 +1,60 @@
+[
+  {
+    "topic": "Science",
+    "difficulty": "Easy",
+    "questions": [
+      {
+        "topic": "Science",
+        "answer": "Hydrogen",
+        "hints": [
+          "Đây là nguyên tố nhẹ nhất trong bảng tuần hoàn",
+          "Nó là nguyên tố phổ biến nhất trong vũ trụ",
+          "Tên của nó bắt đầu bằng chữ H"
+        ],
+        "difficulty": "Easy"
+      },
+      {
+        "topic": "Science",
+        "answer": "Gravity",
+        "hints": [
+          "Đây là lực hút giữa các vật thể có khối lượng",
+          "Nó khiến quả táo rơi từ cây",
+          "Một khái niệm quan trọng trong vật lý"
+        ],
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  {
+    "topic": "History",
+    "difficulty": "Medium",
+    "questions": [
+      {
+        "topic": "History",
+        "answer": "Rome",
+        "hints": [
+          "Đây là một đế chế cổ đại nổi tiếng",
+          "Thủ đô của nó từng là một thành phố rất lớn",
+          "Tên này gắn liền với nền văn minh La Mã"
+        ],
+        "difficulty": "Medium"
+      }
+    ]
+  },
+  {
+    "topic": "Technology",
+    "difficulty": "Easy",
+    "questions": [
+      {
+        "topic": "Technology",
+        "answer": "Internet",
+        "hints": [
+          "Đây là mạng lưới kết nối toàn cầu",
+          "Mọi người dùng nó để truy cập trang web",
+          "Một công nghệ cốt lõi của thời đại số"
+        ],
+        "difficulty": "Easy"
+      }
+    ]
+  }
+]
